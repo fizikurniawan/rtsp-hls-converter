@@ -16,6 +16,3 @@ networks:
   development:
     name: development
     driver: bridge
-
-volumes:
-  rtsp_hls_converter:

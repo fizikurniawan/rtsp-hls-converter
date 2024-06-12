@@ -15,7 +15,7 @@ COPY . .
 
 #Install Python Package with requirements file
 RUN pip install --no-cache-dir -r requirements.txt
-RUN mkdir output
+RUN mkdir -p output
 
 #Expose Port
 EXPOSE 8000

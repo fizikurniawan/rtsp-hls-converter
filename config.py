@@ -1,8 +1,5 @@
-import subprocess
-import os
-import time
-
-RTSP_BASE_URL = "103.150.190.86:4001"
+PORT = 8000
+OUTPUT_DIR = "output"
 CHANNELS = [
     {"id": "1adc157f-3054-4a03-b1da-3a8c69a25e1f", "name": "Camera 142"},
     {"id": "cbe0a11c-c41d-449d-97e1-fe4221ac642f", "name": "Camera 101"},
@@ -54,69 +51,4 @@ CHANNELS = [
     {"id": "7282a72b-4128-438b-a2cf-4df323e92d25", "name": "Camera 36"},
     {"id": "dab37d61-c7d2-43c8-921e-1fa70078e8ae", "name": "Camera 37"},
 ]
-
-
-def start_hls_conversion(rtsp_url, output_dir, channel_name):
-    hls_filename = f"{channel_name}.m3u8"
-    hls_output_path = os.path.join(output_dir, hls_filename)
-    ffmpeg_cmd = [
-        "ffmpeg",
-        "-i",
-        rtsp_url,
-        "-c:v",
-        "copy",
-        "-c:a",
-        "copy",
-        "-hls_time",
-        "4",
-        "-hls_list_size",
-        "10",
-        "-hls_flags",
-        "delete_segments",
-        hls_output_path,
-    ]
-    process = subprocess.Popen(
-        ffmpeg_cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        env=os.environ.copy(),
-    )
-    return process, hls_output_path
-
-
-def stop_hls_conversion(process):
-    process.terminate()
-    try:
-        process.communicate(timeout=5)
-    except subprocess.TimeoutExpired:
-        process.kill()
-
-
-if __name__ == "__main__":
-    output_dir = "output"
-    processes = []
-
-    for channel in CHANNELS:
-        channel_id = channel["id"]
-        channel_name = channel["name"]
-        rtsp_url = f"rtsp://root:@{RTSP_BASE_URL}/rtsp?channelid={channel_id}"
-        print(f"Starting HLS conversion for {channel_name}...")
-        process, hls_output_path = start_hls_conversion(
-            rtsp_url, output_dir, channel_id
-        )
-        if process:
-            processes.append(process)
-            print(
-                f"HLS conversion started for {channel_name}. Output file: {hls_output_path}"
-            )
-        else:
-            print(f"Failed to start HLS conversion for {channel_name}")
-
-    try:
-        # Keep the script running
-        while True:
-            time.sleep(10)
-    except KeyboardInterrupt:
-        # Clean up all subprocesses on termination
-        for process in processes:
-            stop_hls_conversion(process)
+RTSP_BASE_URL = "rtsp://root:@103.150.190.86:4001/rtsp?channelid="
