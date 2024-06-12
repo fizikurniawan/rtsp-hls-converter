@@ -2,6 +2,7 @@ import subprocess
 import os
 import time
 
+RTSP_BASE_URL = "103.150.190.86:4001"
 CHANNELS = [
     {"id": "1adc157f-3054-4a03-b1da-3a8c69a25e1f", "name": "Camera 142"},
     {"id": "cbe0a11c-c41d-449d-97e1-fe4221ac642f", "name": "Camera 101"},
@@ -67,9 +68,9 @@ def start_hls_conversion(rtsp_url, output_dir, channel_name):
         "-c:a",
         "copy",
         "-hls_time",
-        "2",
+        "4",
         "-hls_list_size",
-        "5",
+        "10",
         "-hls_flags",
         "delete_segments",
         hls_output_path,
@@ -98,7 +99,7 @@ if __name__ == "__main__":
     for channel in CHANNELS:
         channel_id = channel["id"]
         channel_name = channel["name"]
-        rtsp_url = f"rtsp://root:@0.tcp.ap.ngrok.io:16817/rtsp?channelid={channel_id}"
+        rtsp_url = f"rtsp://root:@{RTSP_BASE_URL}/rtsp?channelid={channel_id}"
         print(f"Starting HLS conversion for {channel_name}...")
         process, hls_output_path = start_hls_conversion(
             rtsp_url, output_dir, channel_id
