@@ -51,4 +51,4 @@ CHANNELS = [
     # {"id": "7282a72b-4128-438b-a2cf-4df323e92d25", "name": "Camera 36"},
     # {"id": "dab37d61-c7d2-43c8-921e-1fa70078e8ae", "name": "Camera 37"},
 ]
-RTSP_BASE_URL = "rtsp://root:@103.150.190.86:4001/rtsp?channelid="
+RTSP_BASE_URL = "rtsp://root:@36.94.131.179:554/rtsp?channelid="

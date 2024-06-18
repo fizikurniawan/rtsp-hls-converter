@@ -1,8 +1,6 @@
 import subprocess
 import os
 from config import OUTPUT_DIR, CHANNELS, RTSP_BASE_URL
-from flask import send_from_directory
-from flask_cors import cross_origin
 
 
 def start_ffmpeg():
@@ -11,26 +9,43 @@ def start_ffmpeg():
 
     for channel in CHANNELS:
         channel_id = channel["id"]
+        title = channel["name"]
         print("processing: ", channel_id)
         url = RTSP_BASE_URL + channel_id
+
         ffmpeg_cmd = [
             "ffmpeg",
+            "-y",
+            "-fflags",
+            "nobuffer",
+            "-rtsp_transport",
+            "tcp",
             "-i",
             url,
-            "-c:v",
-            "libx264",
-            "-c:a",
-            "aac",
-            "-strict",
-            "-2",
-            "-hls_time",
-            "10",
-            "-hls_list_size",
-            "6",
+            "-f",
+            "lavfi",
+            "-i",
+            "anullsrc=channel_layout=stereo:sample_rate=44100",
+            "-vsync",
+            "0",
+            "-copyts",
+            "-vcodec",
+            "copy",
+            "-movflags",
+            "frag_keyframe+empty_moov",
+            "-an",
+            "-metadata",
+            f"title={title}",
             "-hls_flags",
-            "delete_segments",
+            "delete_segments+append_list",
             "-f",
             "hls",
+            "-segment_list_flags",
+            "live",
+            "-hls_time",
+            "1",
+            "-hls_list_size",
+            "3",
             os.path.join(OUTPUT_DIR, f"{channel_id}.m3u8"),
         ]
         subprocess.Popen(ffmpeg_cmd)
