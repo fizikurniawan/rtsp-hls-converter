@@ -10,32 +10,32 @@ services:
     environment:
       - WORKER_NO=0
 
-  # worker-ffmpeg-1:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/Dockerfile.ffmpeg
-  #   volumes:
-  #     - hls-output:/var/www/hls
-  #   environment:
-  #     - WORKER_NO=1
+  worker-ffmpeg-1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ffmpeg
+    volumes:
+      - hls-output:/var/www/hls
+    environment:
+      - WORKER_NO=1
 
-  # worker-ffmpeg-2:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/Dockerfile.ffmpeg
-  #   volumes:
-  #     - hls-output:/var/www/hls
-  #   environment:
-  #     - WORKER_NO=2
+  worker-ffmpeg-2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ffmpeg
+    volumes:
+      - hls-output:/var/www/hls
+    environment:
+      - WORKER_NO=2
 
-  # worker-ffmpeg-3:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/Dockerfile.ffmpeg
-  #   volumes:
-  #     - hls-output:/var/www/hls
-  #   environment:
-  #     - WORKER_NO=3
+  worker-ffmpeg-3:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ffmpeg
+    volumes:
+      - hls-output:/var/www/hls
+    environment:
+      - WORKER_NO=3
 
   nginx:
     build:
@@ -44,7 +44,7 @@ services:
     volumes:
       - hls-output:/var/www/hls
     ports:
-      - "80:80"
+      - "8004:80"
 
 volumes:
   hls-output:
