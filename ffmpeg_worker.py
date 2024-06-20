@@ -33,6 +33,12 @@ def start_ffmpeg():
             "-copyts",
             "-vcodec",
             "libx264",
+            "-b:v",
+            "800k",  # Set video bitrate for 360p (adjust as needed)
+            "-s",
+            "640x360",  # Set resolution for 360p
+            "-preset",
+            "superfast",  # Set encoding preset (adjust as needed)
             "-movflags",
             "frag_keyframe+empty_moov",
             "-an",
@@ -50,4 +56,5 @@ def start_ffmpeg():
             "3",
             os.path.join(OUTPUT_DIR, f"{channel_id}.m3u8"),
         ]
+
         subprocess.Popen(ffmpeg_cmd)
