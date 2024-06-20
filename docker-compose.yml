@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  worker-ffmpeg-0:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ffmpeg
+    volumes:
+      - hls-output:/var/www/hls
+    environment:
+      - WORKER_NO=0
+
+  # worker-ffmpeg-1:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile.ffmpeg
+  #   volumes:
+  #     - hls-output:/var/www/hls
+  #   environment:
+  #     - WORKER_NO=1
+
+  # worker-ffmpeg-2:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile.ffmpeg
+  #   volumes:
+  #     - hls-output:/var/www/hls
+  #   environment:
+  #     - WORKER_NO=2
+
+  # worker-ffmpeg-3:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile.ffmpeg
+  #   volumes:
+  #     - hls-output:/var/www/hls
+  #   environment:
+  #     - WORKER_NO=3
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.nginx
+    volumes:
+      - hls-output:/var/www/hls
+    ports:
+      - "80:80"
+
+volumes:
+  hls-output:

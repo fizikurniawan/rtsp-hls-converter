@@ -1,0 +1,20 @@
+# Dockerfile.ffmpeg
+FROM python:3.11
+
+ENV PYTHONUNBUFFERED=1
+
+#Install Package
+RUN apt update && apt install -y \
+    build-essential \
+    ffmpeg \
+    supervisor
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# CMD ["/usr/bin/supervisord"]
+CMD ["python3", "-u", "app.py"]
