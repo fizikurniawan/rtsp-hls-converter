@@ -37,6 +37,15 @@ services:
     environment:
       - WORKER_NO=3
 
+  worker-ffmpeg-4:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ffmpeg
+    volumes:
+      - hls-output:/var/www/hls
+    environment:
+      - WORKER_NO=4
+
   nginx:
     build:
       context: .
