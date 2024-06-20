@@ -1,5 +1,6 @@
 OUTPUT_DIR = "/var/www/hls"
-RTSP_BASE_URL = "rtsp://root:@36.94.131.179:554/rtsp?channelid="
+# RTSP_BASE_URL = "rtsp://root:@36.94.131.179:554/rtsp?channelid="
+RTSP_BASE_URL = "rtsp://root:@host.docker.internal:554/rtsp?channelid="
 CHANNELS = {
     0: [
         {"id": "cbe0a11c-c41d-449d-97e1-fe4221ac642f", "name": "Camera 101"},
